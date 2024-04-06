@@ -22,4 +22,6 @@ const callBoard = new Board(tiles)
 
 console.log(callBoard.dimension())
 console.log(callBoard.toString())
+console.log(callBoard.hamming())
+console.log(callBoard.manhattan())
 
