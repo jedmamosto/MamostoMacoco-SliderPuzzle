@@ -1,5 +1,5 @@
-import Solver from "./classes/solver";
-import Board from "./classes/board";
+import Solver from "./classes/Solver";
+import Board from "./classes/board/Board";
 import { readFileSync } from "fs";
 
 const fileName: string = process.argv[2];

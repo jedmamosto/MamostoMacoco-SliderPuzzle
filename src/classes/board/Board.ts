@@ -1,20 +1,25 @@
 class Board {
-    // create a board from an n-by-n array of tiles,
-    // where tiles[row][col] = tile at (row, col)
+    tiles: number[][]
+
     constructor(tiles: number[][]) {
-        // YOUR CODE HERE
+        this.tiles = tiles
     }
 
-    // string representation of this board
     toString(): string {
-        // PLS MODIFY
-        return "";
+        console.log(this.tiles)
+        let represent = ''
+        for (const row of this.tiles) {
+            for (const column of row) {
+                represent += column + ' '
+            }
+            represent += '\n'
+        }
+        return represent;
     }
 
     // board dimension n
     dimension(): number {
-        // PLS MODIFY
-        return 0;
+        return this.tiles.length;
     }
 
     // number of tiles out of place
