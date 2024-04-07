@@ -54,25 +54,64 @@ class Board {
         return totalManhattanDistance;
     }
 
-    // is this board the goal board?
     isGoal(): boolean {
-        // PLS MODIFY
-        return true;
+        return this.manhattan() === 0
     }
 
-    // does this board equal y?
-    equals(y: Board): boolean {
-        // PLS MODIFY
-        return true;
+    equals(otherBoard: Board): boolean {
+        if (this.dimension() !== otherBoard.dimension()) {
+            return false
+        }
+
+        for (let row = 0; row < this.dimension(); row += 1) {
+            for (let col = 0; col < this.dimension(); col += 1) {
+                if (this.tiles[row][col] !== otherBoard.tiles[row][col]) {
+                    return false
+                }
+            }
+        }
+
+        return true
     }
 
-    // all neighboring boards
     neighbors(): Board[] {
-        // PLS MODIFY
-        return [];
+        const emptyPosition = () => {
+            for (let row = 0; row < this.dimension(); row += 1) {
+                for (let col = 0; col < this.dimension(); col += 1) {
+                    if (this.tiles[row][col] === 0) {
+                        return [row, col]
+                    }
+                }
+            }
+            throw new Error("Blank square not found.")
+        }
+
+        const isValidPosition = (row: number, col: number) => {
+            return row >= 0 && row < this.dimension() && col >= 0 && col < this.dimension()
+        }
+
+        const neighboringBoards: Board[] = []
+
+        const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+
+        const [emptyRow, emptyCol] = emptyPosition()
+
+        for (const [x, y] of directions) {
+            const newRow = emptyRow + x
+            const newCol = emptyCol + y
+
+            if (isValidPosition(newRow, newCol)) {
+                const clonedTiles: number[][] = this.tiles.map(row => [...row]);
+
+                [clonedTiles[emptyRow][emptyCol], clonedTiles[newRow][newCol]] = [clonedTiles[newRow][newCol], clonedTiles[emptyRow][emptyCol]];
+
+                neighboringBoards.push(new Board(clonedTiles))
+            }
+        }
+
+        return neighboringBoards
     }
 
-    // a board that is obtained by exchanging any pair of tiles
     twin(): Board {
         // PLS MODIFY
         return new Board([[]]);
