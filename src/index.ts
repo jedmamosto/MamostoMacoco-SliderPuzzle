@@ -1,4 +1,4 @@
-import Solver from "./classes/Solver";
+import Solver from "./classes/solver";
 import Board from "./classes/board/Board";
 import { readFileSync } from "fs";
 
