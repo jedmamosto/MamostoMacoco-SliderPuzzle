@@ -1,4 +1,4 @@
-import Board from "./board";
+import Board from "./board/Board";
 import { MinHeap } from "min-heap-typed";
 
 class Solver {
