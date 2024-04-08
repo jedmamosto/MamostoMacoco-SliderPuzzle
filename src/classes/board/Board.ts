@@ -113,8 +113,25 @@ class Board {
     }
 
     twin(): Board {
-        // PLS MODIFY
-        return new Board([[]]);
+        const clonedTiles: number[][] = this.tiles.map(row => [...row]);
+
+        let firstTileFound = false;
+        let firstTileRow = 0;
+        let firstTileCol = 0;
+        for (let col = 0; col < this.dimension(); col += 1) {
+            if (clonedTiles[0][col] !== 0) {
+                if (!firstTileFound) {
+                    firstTileRow = 0;
+                    firstTileCol = col;
+                    firstTileFound = true;
+                } else {
+                    [clonedTiles[0][firstTileCol], clonedTiles[0][col]] = [clonedTiles[0][col], clonedTiles[0][firstTileCol]];
+                    break;
+                }
+            }
+        }
+
+        return new Board(clonedTiles);
     }
 }
 

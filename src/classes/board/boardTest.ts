@@ -26,4 +26,5 @@ console.log(callBoard.hamming())
 console.log(callBoard.manhattan())
 console.log(callBoard.isGoal())
 console.log(callBoard.neighbors().toString())
+console.log(callBoard.twin().toString())
 
