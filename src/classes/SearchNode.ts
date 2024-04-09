@@ -15,3 +15,5 @@ class SearchNode {
     return this.moves + this.board.hamming()
   }
 }
+
+export default SearchNode;

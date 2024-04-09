@@ -1,28 +1,77 @@
-import Board from "./board/Board";
 import { MinHeap } from "min-heap-typed";
+import Board from "./board/Board";
+import SearchNode from './SearchNode'
 
 class Solver {
-    // find a solution to the initial board (using the A* algorithm)
+    private initialBoard: Board;
+    private solutionFound: boolean;
+    private solutionMoves: number;
+    private solutionBoards: Board[];
+
     constructor(initial: Board) {
-        // YOUR CODE HERE
+        if (initial.dimension() < 2 || initial.dimension() >= 128) {
+            throw new Error("Invalid board dimension");
+        }
+        this.initialBoard = initial;
+        this.solutionFound = false;
+        this.solutionMoves = -1;
+        this.solutionBoards = [];
+
+        const priorityQueue = new MinHeap<Board>();
+
+        priorityQueue.add(initial);
+        priorityQueue.add(initial.twin());
+
+        while (!priorityQueue.isEmpty()) {
+            const currentBoard = priorityQueue.poll();
+
+            if (currentBoard && currentBoard.isGoal()) {
+                this.solutionFound = true;
+                this.solutionMoves = currentBoard.manhattan();
+                this.buildSolution(currentBoard);
+                break;
+            }
+
+            if (currentBoard) {
+                const neighbors = currentBoard.neighbors();
+                for (const neighbor of neighbors) {
+                    if (!neighbor.equals(currentBoard)) {
+                        priorityQueue.add(neighbor);
+                    }
+                }
+            }
+        }
     }
 
-    // is the initial board solvable? (see below)
+    private buildSolution(board: Board) {
+        this.solutionBoards = [];
+        let currentBoard: Board = board;
+        const visited: Board[] = [];
+
+        while (!currentBoard.isGoal()) {
+            this.solutionBoards.unshift(currentBoard);
+            visited.push(currentBoard);
+
+            const neighbors = currentBoard.neighbors();
+            const unvisitedNeighbors = neighbors.filter((neighbor) => !visited.includes(neighbor));
+            currentBoard = unvisitedNeighbors.reduce((minBoard, neighbor) => {
+                return neighbor.manhattan() < minBoard.manhattan() ? neighbor : minBoard;
+            }, currentBoard);
+        }
+
+        this.solutionBoards.unshift(currentBoard);
+    }
+
     isSolvable(): boolean {
-        // PLS MODIFY
-        return true;
+        return this.solutionFound;
     }
 
-    // min number of moves to solve initial board; -1 if unsolvable
     moves(): number {
-        // PLS MODIFY
-        return 0;
+        return this.solutionMoves;
     }
 
-    // sequence of boards in a shortest solution; null if unsolvable
     solution(): Board[] {
-        // PLS MODIFY
-        return [];
+        return this.solutionBoards;
     }
 }
 
