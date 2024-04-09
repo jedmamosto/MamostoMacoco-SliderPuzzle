@@ -1,17 +1,21 @@
-import Board from "./board/Board";
+import Board from "../board/Board";
 
 class SearchNode {
   board: Board;
   moves: number;
   previousSearchNode: SearchNode | null;
+  manhattanPriority: number; // caching
 
   constructor(board: Board, moves: number, previousSearchNode: SearchNode | null = null) {
     this.board = board;
     this.moves = moves;
     this.previousSearchNode = previousSearchNode;
+    this.manhattanPriority = board.manhattan();
   }
 
   priority(): number {
-    return this.moves + this.board.hamming()
+    return this.moves + this.manhattanPriority
   }
 }
+
+export default SearchNode
