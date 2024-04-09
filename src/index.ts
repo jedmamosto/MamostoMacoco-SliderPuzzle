@@ -1,4 +1,4 @@
-import Solver from "./classes/Solver";
+import Solver from "./classes/solver/Solver";
 import Board from "./classes/board/Board";
 import { readFileSync } from "fs";
 
@@ -33,7 +33,7 @@ const initial: Board = new Board(tiles);
 const solver: Solver = new Solver(initial);
 
 // print solution to standard output
-if (!solver.isSolvable()) {
+if (!solver.isSolvable(initial)) {
     console.log("No solution possible");
 } else {
     console.log("Minimum number of moves = " + solver.moves());
